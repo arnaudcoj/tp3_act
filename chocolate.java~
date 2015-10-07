@@ -1,0 +1,21 @@
+import java.util.ArrayList;
+import java.util.List;
+
+/**
+ * Class Chocolate
+ * @author COJEZ Arnaud, LEPRETRE Rémy
+ *
+ */
+
+
+public class Main {
+	public static void main(String[] args) {
+		
+		
+	}
+	
+	public int valPos(List<Integer> list) {
+	
+	}
+}
+
