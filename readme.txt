@@ -17,10 +17,10 @@ LEPRETRE Rémy
            0
 
 2) on prend min et max de la liste des valeurs
-si min > 0 
+si max > 0 && min == 0
     return -max - 1
 
-sinon si min == 0
+sinon si min == 0 && max == 0
     return 1
     
 sinon
