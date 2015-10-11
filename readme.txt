@@ -16,13 +16,19 @@ LEPRETRE Rémy
           | /
            0
 
-2) on prend min et max de la liste des valeurs
-si min > 0 
-    return -max - 1
+2)
+si pas de négatif ou 0 dans la liste
+	n = le plus grand positif
+si pas de négatif mais un 0
+	n = 0
+si négatif
+	n = le plus grand des négatifs
 
-sinon si min == 0
-    return 1
-    
-sinon
-    n = le plus grand négatif
-    return -n + 1 
+si n = 0
+	return 1
+si n > 0
+	return -n - 1
+si n < 0
+	return -n + 1
+si max > 0 && min == 0
+    return -max - 1
