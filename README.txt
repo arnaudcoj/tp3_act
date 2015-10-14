@@ -30,5 +30,3 @@ si n > 0
 	return -n - 1
 si n < 0
 	return -n + 1
-si max > 0 && min == 0
-    return -max - 1

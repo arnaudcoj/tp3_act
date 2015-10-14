@@ -22,18 +22,20 @@ public class Main {
 	list.add(-1);
 	System.out.println(valPreviousPos(list));*/
 
-	
 	System.out.println(winRate(1,1,1,1));
 	System.out.println(winRate(2,1,2,1));
 	System.out.println(winRate(1,2,1,2));
 	System.out.println(winRate(2,2,2,2));
 	System.out.println(winRate(3,2,3,2));
 	System.out.println(winRate(3,1,3,1));
-	System.out.println(winRate(3,2,3,2));
+	System.out.println(winRate(10,7,7,3));
     }
 
     
-    
+    /** calculate the previous value of a position
+     *@param list of the value to compare
+     *@return int the previous value of the position
+     */
     static int valPreviousPos(List<Integer> list) {
 	//maybe do a try catch to check if the list is empty or not?
 	int val = list.get(0);
@@ -72,13 +74,19 @@ public class Main {
 	}
     }
 
+    /** calculte the winRate of a chocolateBar
+     *@param width of the chocolateBar
+     *@param height of the chocolateBar
+     *@param widthSKull the width of the skull
+     *@param heightSkull the height of the skull
+     *@return int the winrate
+     */
     static int winRate(int width, int height, int widthSkull, int heightSkull) {
-	List<Integer> chocolateBar = new ArrayList<Integer>(0);
+	List<Integer> chocolateBar = new ArrayList<Integer>();
 	//if juste one square
 	if ( width == 1 && height == 1) {
 	    return 0;
 	}
-
 	//else calculate all the different possibilities of cutting
 	//cut by the left
 	for (int k=1;k<widthSkull;k++) {
@@ -89,11 +97,11 @@ public class Main {
 	    chocolateBar.add(winRate(width, height-f, widthSkull, heightSkull-f));
 	}
 	//cut by the right
-	for (int q=1;q<width-widthSkull-1;q++) {
+	for (int q=1;q<=(width-widthSkull);q++) {
 	    chocolateBar.add(winRate(width-q, height, widthSkull, heightSkull));
 	}
 	//cut by the down
-	for (int u=1;u<height-heightSkull-1;u++) {
+	for (int u=1;u<=(height-heightSkull);u++) {
 	    chocolateBar.add(winRate(width, height-u, widthSkull, heightSkull));
 	}
 	return valPreviousPos(chocolateBar);
