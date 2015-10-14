@@ -30,3 +30,12 @@ si n > 0
 	return -n - 1
 si n < 0
 	return -n + 1
+	
+
+3) (10,7,7,3) met 17 secondes à s'exécuter
+(10,7,5,3) met 14 secondes à s'éxécuter
+(je ne sais pas pour la différence entre les deux valeurs)
+La compléxité de cette algorithme est exponentielle car a chaque récursion on fait 4 boucles qui exécutent autant de récursion que la taille de leur boucle
+
+
+4)

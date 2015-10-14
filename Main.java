@@ -28,7 +28,7 @@ public class Main {
 	System.out.println(winRate(2,2,2,2));
 	System.out.println(winRate(3,2,3,2));
 	System.out.println(winRate(3,1,3,1));
-	System.out.println(winRate(10,7,7,3));
+	System.out.println(winRate(10,7,5,3));
     }
 
     
@@ -74,7 +74,7 @@ public class Main {
 	}
     }
 
-    /** calculte the winRate of a chocolateBar
+    /** calculate the winRate of a chocolateBar
      *@param width of the chocolateBar
      *@param height of the chocolateBar
      *@param widthSKull the width of the skull
