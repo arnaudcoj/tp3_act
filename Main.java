@@ -28,12 +28,14 @@ public class Main {
 	LinkedList<String> list = new LinkedList<String>();
 	for(int i = 126; i >= 0; i--)
 	    for(int j = 126; j >= 0; j--) {
+		System.out.print("conf: 127, 127, " + i + ", " + j);
 		int res = dyn_winRate(127,127,i,j);
+		System.out.print(" = " + res);
 		if(res == 127) {
-		    System.out.print("=>>>>>");
+		    System.out.print("<=======");
 		    list.add("conf: 127, 127, " + i + ", " + j + " = " + res);
 		}
-		System.out.println("conf: 127, 127, " + i + ", " + j + " = " + res);
+		System.out.println("");
 	    }
 
 	System.out.println("results :");
@@ -139,8 +141,7 @@ public class Main {
      * @return the winrate
      */
     public static int dyn_winRate(int width, int height, int widthSkull, int heightSkull) {
-	if(configurations == null || configurations.length < width || configurations[0].length < height || configurations[0][0].length < widthSkull || configurations[0][0][0].length < heightSkull)
-	    initConfigurationTable(width, height, widthSkull, heightSkull);
+	initConfigurationTable2(width, height, widthSkull, heightSkull);
 	
 	List<Integer> chocolateBar = new ArrayList<Integer>(0);
 	//if juste one square
@@ -173,7 +174,6 @@ public class Main {
 	    }
 
 	//returns the content of the current configuration from the table
-	//	System.out.println("conf :" + width + "," + height + "," + widthSkull + "," + heightSkull + " = " + configurations[width-1][height-1][widthSkull][heightSkull]);
 	return getConfiguration(width, height, widthSkull, heightSkull);
     }
 
@@ -186,23 +186,61 @@ public class Main {
      *@return the winrate
      */
     public static void initConfigurationTable(int width, int height, int widthSkull, int heightSkull) {
-	configurations = new int[width][height][widthSkull + 1][heightSkull + 1];
-	for(int i = 0; i < width; i++) {
-	    // configurations[i] = new int[][][][](height);
-	    for(int j = 0; j < height; j++) {
-		//	configurations[i][j] = new int[][][][](widthSkull);
-		for(int k = 0; k <= widthSkull; k++) {
-		    //  configurations[i][j][k] = new int[][][][](heightSkull);
-		    for(int l = 0; l <= heightSkull; l++) {
-			//System.out.println("init : " + i + " " + j + " " + k + " " + l + " " );
-			configurations[i][j][k][l] = -1;
-		    }		    
+	if(configurations == null || configurations.length < width || configurations[0].length < height || configurations[0][0].length < widthSkull || configurations[0][0][0].length < heightSkull) {
+	    configurations = new int[width][height][widthSkull + 1][heightSkull + 1];
+	    for(int i = 0; i < width; i++) {
+		// configurations[i] = new int[][][][](height);
+		for(int j = 0; j < height; j++) {
+		    //	configurations[i][j] = new int[][][][](widthSkull);
+		    for(int k = 0; k <= widthSkull; k++) {
+			//  configurations[i][j][k] = new int[][][][](heightSkull);
+			for(int l = 0; l <= heightSkull; l++) {
+			    //System.out.println("init : " + i + " " + j + " " + k + " " + l + " " );
+			    configurations[i][j][k][l] = -1;
+			}		    
+		    }
 		}
 	    }
 	}
-	
     }
-
+	
+/**
+     * Initializes the configurations tables
+     *@param width of the chocolateBar
+     *@param height of the chocolateBar
+     *@param widthSKull the width of the skull
+     *@param heightSkull the height of the skull
+     *@return the winrate
+     */
+    public static void initConfigurationTable2(int width, int height, int widthSkull, int heightSkull) {
+	int newM = Integer.max(width,height);
+	int newN = Integer.min(width,height);
+	
+	int tmpI = newM / 2;
+	int tmpJ = newN / 2;
+	
+	int newI = Integer.max(tmpI, tmpJ);
+	int newJ = Integer.min(tmpI, tmpJ);
+	
+	if(configurations == null || configurations.length < newM || configurations[0].length < newN || configurations[0][0].length < newI || configurations[0][0][0].length < newJ) {
+	    //System.out.println("init : " + newM + " " + newN + " " + newI + " " + newJ );
+	    configurations = new int[newM][newN][newI + 1][newJ + 1];
+	    for(int i = 0; i < newM; i++) {
+		// configurations[i] = new int[][][][](height);
+		for(int j = 0; j < newN; j++) {
+		    //	configurations[i][j] = new int[][][][](widthSkull);
+		    for(int k = 0; k <= newI; k++) {
+			//  configurations[i][j][k] = new int[][][][](heightSkull);
+			for(int l = 0; l <= newJ; l++) {
+			    //System.out.println("init : " + i + " " + j + " " + k + " " + l + " " );
+			    configurations[i][j][k][l] = -1;
+			}		    
+		    }
+		}
+	    }
+	}
+    }
+    
     //useless ?
     public static int encode(int m, int n, int i, int j) {
 	if (m > 127 || n > 127 || i > 127 || j > 127)
@@ -238,6 +276,7 @@ public class Main {
 	int newI = Integer.max(tmpI, tmpJ);
 	int newJ = Integer.min(tmpI, tmpJ);
 	
+	//System.out.println("get : " + newM + " " + newN + " " + newI + " " + newJ );
 	return configurations[newM -1][newN -1][newI][newJ];
     }
 }
