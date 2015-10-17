@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -7,28 +8,48 @@ import java.util.List;
  *
  */
 
-
 public class Main {
-    public static void main(String[] args) {
-	/*List<Integer> list = new ArrayList<Integer>();
-	list.add(5);
-	System.out.println(valPreviousPos(list));
-	list.add(3);
-	System.out.println(valPreviousPos(list));
-	list.add(0);
-	System.out.println(valPreviousPos(list));
-	list.add(-4);
-	System.out.println(valPreviousPos(list));
-	list.add(-1);
-	System.out.println(valPreviousPos(list));*/
 
-	System.out.println(winRate(1,1,1,1));
-	System.out.println(winRate(2,1,2,1));
-	System.out.println(winRate(1,2,1,2));
-	System.out.println(winRate(2,2,2,2));
-	System.out.println(winRate(3,2,3,2));
-	System.out.println(winRate(3,1,3,1));
-	System.out.println(winRate(10,7,5,3));
+    public static int[][][][] configurations = null;
+
+    public static void main(String[] args) {
+	System.out.println(dyn_winRate(3,2,1,0));
+	/*
+	  q4
+	  System.out.println(dyn_winRate(100,100,48,52));
+	  System.out.println(dyn_winRate(100,100,48,52));
+	*/
+
+	
+	/*
+	  q5
+	*/
+
+	LinkedList<String> list = new LinkedList<String>();
+	for(int i = 126; i >= 0; i--)
+	    for(int j = 126; j >= 0; j--) {
+		int res = dyn_winRate(127,127,i,j);
+		if(res == 127) {
+		    System.out.print("=>>>>>");
+		    list.add("conf: 127, 127, " + i + ", " + j + " = " + res);
+		}
+		System.out.println("conf: 127, 127, " + i + ", " + j + " = " + res);
+	    }
+
+	System.out.println("results :");
+	
+	for(String str : list)
+	    System.out.println(str);
+	
+	
+	/*
+	  System.out.println(winRate(1,1,1,1));
+	  System.out.println(winRate(2,1,2,1));
+	  System.out.println(winRate(1,2,1,2));
+	  System.out.println(winRate(2,2,2,2));
+	  System.out.println(winRate(3,2,3,2));
+	  System.out.println(winRate(3,1,3,1));
+	  System.out.println(winRate(3,2,3,2));*/
     }
 
     
@@ -36,7 +57,7 @@ public class Main {
      *@param list of the value to compare
      *@return int the previous value of the position
      */
-    static int valPreviousPos(List<Integer> list) {
+    static public int valPreviousPos(List<Integer> list) {
 	//maybe do a try catch to check if the list is empty or not?
 	int val = list.get(0);
 	for (int i=1; i<list.size(); i++) {
@@ -74,14 +95,15 @@ public class Main {
 	}
     }
 
-    /** calculate the winRate of a chocolateBar
-     *@param width of the chocolateBar
-     *@param height of the chocolateBar
-     *@param widthSKull the width of the skull
-     *@param heightSkull the height of the skull
-     *@return int the winrate
+    /** 
+     * Computes the winRate of a chocolateBar in a 
+     * @param width of the chocolateBar
+     * @param height of the chocolateBar
+     * @param widthSKull the width of the skull
+     * @param heightSkull the height of the skull
+     * @return the winrate
      */
-    static int winRate(int width, int height, int widthSkull, int heightSkull) {
+    static int rec_winRate(int width, int height, int widthSkull, int heightSkull) {
 	List<Integer> chocolateBar = new ArrayList<Integer>();
 	//if juste one square
 	if ( width == 1 && height == 1) {
@@ -89,21 +111,107 @@ public class Main {
 	}
 	//else calculate all the different possibilities of cutting
 	//cut by the left
-	for (int k=1;k<widthSkull;k++) {
-	    chocolateBar.add(winRate(width-k, height, widthSkull-k, heightSkull));
+	for (int k=1;k<=widthSkull;k++) {
+	    chocolateBar.add(rec_winRate(width-k, height, widthSkull-k, heightSkull));
 	}
 	//cut by the up
-	for (int f=1;f<heightSkull;f++) {
-	    chocolateBar.add(winRate(width, height-f, widthSkull, heightSkull-f));
+	for (int f=1;f<=heightSkull;f++) {
+	    chocolateBar.add(rec_winRate(width, height-f, widthSkull, heightSkull-f));
 	}
 	//cut by the right
-	for (int q=1;q<=(width-widthSkull);q++) {
-	    chocolateBar.add(winRate(width-q, height, widthSkull, heightSkull));
+
+	for (int q=1;q<(width-widthSkull);q++) {
+	    chocolateBar.add(rec_winRate(width-q, height, widthSkull, heightSkull));
 	}
 	//cut by the down
-	for (int u=1;u<=(height-heightSkull);u++) {
-	    chocolateBar.add(winRate(width, height-u, widthSkull, heightSkull));
+	for (int u=1;u<(height-heightSkull);u++) {
+	    chocolateBar.add(rec_winRate(width, height-u, widthSkull, heightSkull));
 	}
 	return valPreviousPos(chocolateBar);
     }
+    
+    /**
+     * Computes the winRate of a chocolateBar in a dynamic way
+     * @param width of the chocolateBar
+     * @param height of the chocolateBar
+     * @param widthSKull the width of the skull
+     * @param heightSkull the height of the skull
+     * @return the winrate
+     */
+    public static int dyn_winRate(int width, int height, int widthSkull, int heightSkull) {
+	if(configurations == null || configurations.length < width || configurations[0].length < height || configurations[0][0].length < widthSkull || configurations[0][0][0].length < heightSkull)
+	    initConfigurationTable(width, height, widthSkull, heightSkull);
+	
+	List<Integer> chocolateBar = new ArrayList<Integer>(0);
+	//if juste one square
+	if ( width == 1 && height == 1) {
+	    configurations[width-1][height-1][widthSkull][heightSkull] = 0;
+	}
+	
+	else
+	    //else calculate all the different possibilities of cutting
+	    if(configurations[width -1][height -1][widthSkull][heightSkull] < 0) {
+		//cut by the left
+		for (int k=1;k<=widthSkull;k++) {
+		    chocolateBar.add(dyn_winRate(width-k, height, widthSkull-k, heightSkull));	    }
+		//cut by the up
+		for (int f=1;f<=heightSkull;f++) {
+		    chocolateBar.add(dyn_winRate(width, height-f, widthSkull, heightSkull-f));
+		}
+		//cut by the right
+		for (int q=1;q<width-widthSkull;q++) {
+		    chocolateBar.add(dyn_winRate(width-q, height, widthSkull, heightSkull));
+		}
+		//cut by the down
+		for (int u=1;u<height-heightSkull;u++) {
+		    chocolateBar.add(dyn_winRate(width, height-u, widthSkull, heightSkull));
+		}
+
+		//adding the result to the configurations table
+		configurations[width-1][height-1][widthSkull][heightSkull] = valPreviousPos(chocolateBar);
+	    }
+
+	//returns the content of the current configuration from the table
+	//	System.out.println("conf :" + width + "," + height + "," + widthSkull + "," + heightSkull + " = " + configurations[width-1][height-1][widthSkull][heightSkull]);
+	return configurations[width-1][height-1][widthSkull][heightSkull];
+    }
+
+    /**
+     * Initializes the configurations tables
+     *@param width of the chocolateBar
+     *@param height of the chocolateBar
+     *@param widthSKull the width of the skull
+     *@param heightSkull the height of the skull
+     *@return the winrate
+     */
+    public static void initConfigurationTable(int width, int height, int widthSkull, int heightSkull) {
+	configurations = new int[width][height][widthSkull + 1][heightSkull + 1];
+	for(int i = 0; i < width; i++) {
+	    // configurations[i] = new int[][][][](height);
+	    for(int j = 0; j < height; j++) {
+		//	configurations[i][j] = new int[][][][](widthSkull);
+		for(int k = 0; k <= widthSkull; k++) {
+		    //  configurations[i][j][k] = new int[][][][](heightSkull);
+		    for(int l = 0; l <= heightSkull; l++) {
+			//			System.out.println("init : " + i + " " + j + " " + k + " " + l + " " );
+			configurations[i][j][k][l] = -1;
+		    }		    
+		}
+	    }
+	}
+	
+    }
+
+
+    public static int encode(int m, int n, int i, int j) {
+	if (m > 127 || n > 127 || i > 127 || j > 127)
+	    throw new IllegalArgumentException("encode : parameters must not exceed 255");
+	
+	i = (i << 7);
+	n = (n << 14);
+        m = (m << 21);
+	
+	return m | n | i | j;
+    }
+    
 }
