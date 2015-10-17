@@ -56,3 +56,6 @@ conf: 127, 127, 0, 63 = 127
 6)
 
 7)
+
+8)
+On passe de 30min à 3min pour résoudre la question 5
