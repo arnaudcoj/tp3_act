@@ -12,23 +12,12 @@ public class Main {
     public static int[][][][] configurations = null;
 
     public static void main(String[] args) {
-	/*List<Integer> list = new ArrayList<Integer>();
-	  list.add(5);
-	  System.out.println(valPreviousPos(list));
-	  list.add(3);
-	  System.out.println(valPreviousPos(list));
-	  list.add(0);
-	  System.out.println(valPreviousPos(list));
-	  list.add(-4);
-	  System.out.println(valPreviousPos(list));
-	  list.add(-1);
-	  System.out.println(valPreviousPos(list));*/
-
 	/*
 	  q4
 	  System.out.println(dyn_winRate(100,100,48,52));
 	  System.out.println(dyn_winRate(100,100,48,52));
 	*/
+
 	
 	/*
 	  q5
@@ -49,7 +38,7 @@ public class Main {
 	
 	for(String str : list)
 	    System.out.println(str);
-	
+	*/
 	
 	/*
 	  System.out.println(winRate(1,1,1,1));
