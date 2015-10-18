@@ -187,14 +187,14 @@ public class Main {
      */
     public static void initConfigurationTable(int width, int height, int widthSkull, int heightSkull) {
 	if(configurations == null || configurations.length < width || configurations[0].length < height || configurations[0][0].length < widthSkull || configurations[0][0][0].length < heightSkull) {
-	    configurations = new Integer[width][height][widthSkull][heightSkull];
+	    configurations = new Integer[width][height][widthSkull+1][heightSkull+1];
 	    for(int i = 0; i < width; i++) {
 		// configurations[i] = new int[][][][](height);
 		for(int j = 0; j < height; j++) {
 		    //	configurations[i][j] = new int[][][][](widthSkull);
-		    for(int k = 0; k < widthSkull; k++) {
+		    for(int k = 0; k <= widthSkull; k++) {
 			//  configurations[i][j][k] = new int[][][][](heightSkull);
-			for(int l = 0; l < heightSkull; l++) {
+			for(int l = 0; l <= heightSkull; l++) {
 			    //System.out.println("init : " + i + " " + j + " " + k + " " + l + " " );
 			    configurations[i][j][k][l] = -1;
 			}		    
@@ -229,9 +229,9 @@ public class Main {
 		// configurations[i] = new int[][][][](height);
 		for(int j = 0; j < newN; j++) {
 		    //	configurations[i][j] = new int[][][][](widthSkull);
-		    for(int k = 0; k < newI; k++) {
+		    for(int k = 0; k <= newI; k++) {
 			//  configurations[i][j][k] = new int[][][][](heightSkull);
-			for(int l = 0; l < newJ; l++) {
+			for(int l = 0; l <= newJ; l++) {
 			    //System.out.println("init : " + i + " " + j + " " + k + " " + l + " " );
 			    configurations[i][j][k][l] = null;
 			}		    
