@@ -30,32 +30,31 @@ si n > 0
 	return -n - 1
 si n < 0
 	return -n + 1
-	
-si max > 0 && min == 0
-    return -max - 1
 
 
 
-3) (10,7,7,3) met 17 secondes à s'exécuter
+3) 
+(10,7,7,3) met 17 secondes à s'exécuter
 (10,7,5,3) met 14 secondes à s'éxécuter
 (je ne sais pas pour la différence entre les deux valeurs)
 La compléxité de cette algorithme est exponentielle car a chaque récursion on fait 4 boucles qui exécutent autant de récursion que la taille de leur boucle
 
 4)
-
 (100, 100, 50, 50) = -198
 (100, 100, 48, 52) =  191
 
 5)
-
 conf: 127, 127, 126, 63 = 127
 conf: 127, 127, 63, 126 = 127
 conf: 127, 127, 63, 0 = 127
 conf: 127, 127, 0, 63 = 127
 
 6)
+La version dynamique est en O(n4)
 
 7)
+Toutes ces configurations ont la meme valeur car la superficie du quadrillage est la même qu'il soit à l'horizontale ou à la verticale. De plus la tête de mort se situe toujours à 1 carreau de distance d'un des bords, ce qui donneras toujours le même résultat.
 
 8)
-On passe de 30min à 3min pour résoudre la question 5
+On passe de 30min à 3min pour résoudre la question 5.
+Nous allons donc 10 fois plus vite pour résoudre le problème

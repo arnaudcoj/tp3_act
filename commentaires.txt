@@ -1,0 +1,9 @@
+-dans la question 2, la ligne avec min et max apparait toujours apres les commit alors qu'elle n'a plus aucun intérêt.
+
+-dans la version dynamique, il y a deux fois l'initialisation de la table, laquelle est la bonne?
+
+-dans la version dynamique, il y a une méthode commenter en useless. Elle l'est vraiment?
+
+-Fait-on la question 9?
+
+-Pour la question 10 je pense que le mieux est de se voir pour savoir comment on fait notre interface.
