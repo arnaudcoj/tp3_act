@@ -13,17 +13,21 @@ public class Main {
     public static Integer[][][][] configurations = null;
 
     public static void main(String[] args) {
-	System.out.println(dyn_winRate(3,2,2,0));
-	/* 
-	   q4
+	/*
+	 
+	System.out.println(dyn_winRate(10,7,7,3));
+	System.out.println(dyn_winRate(10,7,5,3));
 	*/
+/*
+	   q4
+*/
 	  System.out.println(dyn_winRate(100,100,50,50));
 	  System.out.println(dyn_winRate(100,100,48,52));
 	
 	
 	/*
 	  q5
-
+	
 	LinkedList<String> list = new LinkedList<String>();
 	for(int i = 126; i >= 0; i--)
 	    for(int j = 126; j >= 0; j--) {
@@ -41,8 +45,8 @@ public class Main {
 	
 	for(String str : list)
 	    System.out.println(str);
-	
 	*/
+	
 	
 	/*
 	  System.out.println(winRate(1,1,1,1));
@@ -189,14 +193,11 @@ public class Main {
 	if(configurations == null || configurations.length < width || configurations[0].length < height || configurations[0][0].length < widthSkull || configurations[0][0][0].length < heightSkull) {
 	    configurations = new Integer[width][height][widthSkull+1][heightSkull+1];
 	    for(int i = 0; i < width; i++) {
-		// configurations[i] = new int[][][][](height);
 		for(int j = 0; j < height; j++) {
-		    //	configurations[i][j] = new int[][][][](widthSkull);
 		    for(int k = 0; k <= widthSkull; k++) {
-			//  configurations[i][j][k] = new int[][][][](heightSkull);
 			for(int l = 0; l <= heightSkull; l++) {
 			    //System.out.println("init : " + i + " " + j + " " + k + " " + l + " " );
-			    configurations[i][j][k][l] = -1;
+			    configurations[i][j][k][l] = null;
 			}		    
 		    }
 		}
@@ -213,6 +214,7 @@ public class Main {
      *@return the winrate
      */
     public static void initConfigurationTable2(int width, int height, int widthSkull, int heightSkull) {
+	/*
 	int newM = Integer.max(width,height);
 	int newN = Integer.min(width,height);
 	
@@ -221,16 +223,34 @@ public class Main {
 	
 	int newI = Integer.max(tmpI, tmpJ);
 	int newJ = Integer.min(tmpI, tmpJ);
+*/
+
+	int newM;
+	int newN;
+	int tmpI;
+	int tmpJ; 
+
+	if(width < height) {
+	    newM = height;
+	    newN = width;
+	    tmpI = heightSkull;
+	    tmpJ = widthSkull;
+	} else {
+	    newM = width;
+	    newN = height;
+	    tmpI = widthSkull;
+	    tmpJ = heightSkull;
+	}
+	
+	int newI = Integer.min(tmpI, newM / 2);
+	int newJ = Integer.min(tmpJ, newN / 2);
 	
 	if(configurations == null || configurations.length < newM || configurations[0].length < newN || configurations[0][0].length < newI || configurations[0][0][0].length < newJ) {
 	    //System.out.println("init : " + newM + " " + newN + " " + newI + " " + newJ );
 	    configurations = new Integer[newM][newN][newI+1][newJ+1];
 	    for(int i = 0; i < newM; i++) {
-		// configurations[i] = new int[][][][](height);
 		for(int j = 0; j < newN; j++) {
-		    //	configurations[i][j] = new int[][][][](widthSkull);
 		    for(int k = 0; k <= newI; k++) {
-			//  configurations[i][j][k] = new int[][][][](heightSkull);
 			for(int l = 0; l <= newJ; l++) {
 			    //System.out.println("init : " + i + " " + j + " " + k + " " + l + " " );
 			    configurations[i][j][k][l] = null;
@@ -241,33 +261,38 @@ public class Main {
 	}
     }
     
-    //useless ?
-    public static int encode(int m, int n, int i, int j) {
-	if (m > 127 || n > 127 || i > 127 || j > 127)
-	    throw new IllegalArgumentException("encode : parameters must not exceed 255");
-	
-	i = (i << 7);
-	n = (n << 14);
-        m = (m << 21);
-	
-	return m | n | i | j;
-    }
-
     public static void addConfiguration(int m, int n, int i, int j, int result) {
-	int newM = Integer.max(m,n);
+	
+	/*int newM = Integer.max(m,n);
 	int newN = Integer.min(m,n);
+	*/
+	int newM;
+	int newN;
+	int tmpI;
+	int tmpJ; 
+
+	if(m < n) {
+	    newM = n;
+	    newN = m;
+	    tmpI = j;
+	    tmpJ = i;
+	} else {
+	    newM = m;
+	    newN = n;
+	    tmpI = i;
+	    tmpJ = j;
+	}
 	
-	int tmpI = Integer.min(i, m - i - 1);
-	int tmpJ = Integer.min(j, n - j - 1);
 	
-	int newI = Integer.max(tmpI, tmpJ);
-	int newJ = Integer.min(tmpI, tmpJ);
+	int newI = Integer.min(tmpI, newM - tmpI - 1);
+	int newJ = Integer.min(tmpJ, newN - tmpJ - 1);
 	
 	configurations[newM-1][newN-1][newI][newJ] = result;
     }
     
     public static Integer getConfiguration(int m, int n, int i, int j) {
-	int newM = Integer.max(m,n);
+	/*
+	  int newM = Integer.max(m,n);
 	int newN = Integer.min(m,n);
 	
 	int tmpI = Integer.min(i, m - i - 1);
@@ -275,6 +300,27 @@ public class Main {
 	
 	int newI = Integer.max(tmpI, tmpJ);
 	int newJ = Integer.min(tmpI, tmpJ);
+	*/
+	int newM;
+	int newN;
+	int tmpI;
+	int tmpJ; 
+
+	if(m < n) {
+	    newM = n;
+	    newN = m;
+	    tmpI = j;
+	    tmpJ = i;
+	} else {
+	    newM = m;
+	    newN = n;
+	    tmpI = i;
+	    tmpJ = j;
+	}
+	
+	
+	int newI = Integer.min(tmpI, newM - tmpI - 1);
+	int newJ = Integer.min(tmpJ, newN - tmpJ - 1);
 	
 	//System.out.println("get : " + newM + " " + newN + " " + newI + " " + newJ );
 	return configurations[newM -1][newN -1][newI][newJ];

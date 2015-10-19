@@ -53,7 +53,7 @@ conf: 127, 127, 0, 63 = 127
 La version dynamique est en O(n4)
 
 7)
-Toutes ces configurations ont la meme valeur car la superficie du quadrillage est la même qu'il soit à l'horizontale ou à la verticale. De plus la tête de mort se situe toujours à 1 carreau de distance d'un des bords, ce qui donneras toujours le même résultat.
+Toutes ces configurations ont la meme valeur car la superficie du quadrillage est la même qu'il soit à l'horizontale ou à la verticale. De plus la tête de mort se situe toujours à 1 carreau de distance d'un des bords et collé à un bord, ce qui donnera toujours le même résultat.
 
 8)
 On passe de 30min à 3min pour résoudre la question 5.
