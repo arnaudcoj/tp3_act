@@ -1,6 +1,7 @@
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Scanner;
 
 /**
  * Class Chocolate
@@ -20,11 +21,11 @@ public class Main {
 	*/
 /*
 	   q4
-*/
 	  System.out.println(dyn_winRate(100,100,50,50));
 	  System.out.println(dyn_winRate(100,100,48,52));
 	
 	
+*/
 	/*
 	  q5
 	
@@ -56,6 +57,12 @@ public class Main {
 	  System.out.println(winRate(3,2,3,2));
 	  System.out.println(winRate(3,1,3,1));
 	  System.out.println(winRate(3,2,3,2));*/
+
+	int m = Integer.parseInt(args[0]);
+	int n = Integer.parseInt(args[1]);
+	int i = Integer.parseInt(args[2]);
+	int j = Integer.parseInt(args[3]);
+	game(m,n,i,j);
     }
 
     
@@ -325,7 +332,122 @@ public class Main {
 	//System.out.println("get : " + newM + " " + newN + " " + newI + " " + newJ );
 	return configurations[newM -1][newN -1][newI][newJ];
     }
+
+
+    public static void game(int m, int n, int i, int j) {
+	Scanner keyboard = new Scanner( System.in ) ; 
+	Configuration configuration = new Configuration(m,n,i,j);
+	boolean human = false;
+	int input;
+
+	while(configuration.value != 0) {
+	    human = !human;
+	    
+	    System.out.println("================================================");
+	    System.out.println("Actual configuration : " + configuration);
+	    
+	    if(human) {
+		System.out.println("Possible configurations :");
+		
+		int k = 1;
+		
+		List<Configuration> possibilities = configuration.getChildren();
+		
+		for (Configuration conf : possibilities)
+		    System.out.println((k++) + ". " + conf);
+		
+		while (true) {
+		    input = keyboard.nextInt() -1;
+		    if (input >= 0 && input < possibilities.size())
+			break;
+		    System.out.println("Wrong input");
+		}
+
+		System.out.print("Human gives ");
+		configuration = possibilities.get(input);
+		System.out.println(configuration);
+	    }
+	    else {
+		System.out.print("Computer gives ");
+		configuration = configuration.getBestChild();
+		System.out.println(configuration + " (turn(s) planned : " + Math.abs(configuration.value) + ")");
+	    }
+	}
+	
+		System.out.println("================================================");
+	if(human)
+		System.out.println("Human Won !");
+	    else
+		System.out.println("Computer Won !");
+	keyboard.close();
+    }    
+    
+
+    public static class Configuration {
+	public int m;
+	public int n;
+	public int i;
+	public int j;
+	public Integer value = null;
+	
+	public Configuration(int m, int n, int i, int j) {
+	    this.m = m;
+	    this.n = n;
+	    this.i = i;
+	    this.j = j;
+	    this.value = dyn_winRate(m, n, i, j);
+	}
+
+	public List<Configuration> getChildren() {
+	    List<Configuration> children = new ArrayList<Configuration>();
+	    //cut by the left
+	    for (int k=1;k<=this.i;k++) {
+		children.add(new Configuration(this.m-k, this.n, this.i-k, this.j));
+	    }
+	    
+	    //cut by the up
+	    for (int f=1;f<=this.j;f++) {
+		children.add(new Configuration(this.m, this.n-f, this.i, this.j-f));
+	    }
+	    
+	    //cut by the right
+	    for (int q=1;q<this.m-this.i;q++) {
+		children.add(new Configuration(this.m-q, this.n, this.i, this.j));
+	    }
+	    
+	    //cut by the down
+	    for (int u=1;u<this.n-this.j;u++) {
+		children.add(new Configuration(this.m, this.n-u, this.i, this.j));
+	    }
+
+	    return children;
+	}
+
+	public Configuration getBestChild() {
+	    List<Configuration> configurations = this.getChildren();
+	    if(configurations.isEmpty())
+		throw new IllegalArgumentException();
+
+	    if(this.value < 0) {
+		for(Configuration el : configurations)
+		    if(el.value == -(this.value +1))
+			return el;
+	    } else {
+		for(Configuration el : configurations)
+		    if(el.value == -(this.value -1))
+			return el;
+	    }
+
+	    return this;
+	}
+
+	public String toString() {
+	return "" + this.m + " " + this.n + " " + this.i + " " + this.j;
+	    
+	}
+
+	
+    }
+    
 }
 
-
-    
