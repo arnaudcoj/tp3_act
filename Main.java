@@ -10,20 +10,19 @@ import java.util.List;
 
 public class Main {
 
-    public static int[][][][] configurations = null;
+    public static Integer[][][][] configurations = null;
 
     public static void main(String[] args) {
 	System.out.println(dyn_winRate(3,2,2,0));
 	/* 
 	   q4
+	*/
 	  System.out.println(dyn_winRate(100,100,50,50));
 	  System.out.println(dyn_winRate(100,100,48,52));
 	
-	*/
 	
 	/*
 	  q5
-	*/
 
 	LinkedList<String> list = new LinkedList<String>();
 	for(int i = 126; i >= 0; i--)
@@ -43,6 +42,7 @@ public class Main {
 	for(String str : list)
 	    System.out.println(str);
 	
+	*/
 	
 	/*
 	  System.out.println(winRate(1,1,1,1));
@@ -151,7 +151,7 @@ public class Main {
 	
 	else
 	    //else calculate all the different possibilities of cutting
-	    if(getConfiguration(width, height, widthSkull, heightSkull) < 0) {
+	    if(getConfiguration(width, height, widthSkull, heightSkull) == null) {
 		//cut by the left
 		for (int k=1;k<=widthSkull;k++) {
 		    chocolateBar.add(dyn_winRate(width-k, height, widthSkull-k, heightSkull));
@@ -187,7 +187,7 @@ public class Main {
      */
     public static void initConfigurationTable(int width, int height, int widthSkull, int heightSkull) {
 	if(configurations == null || configurations.length < width || configurations[0].length < height || configurations[0][0].length < widthSkull || configurations[0][0][0].length < heightSkull) {
-	    configurations = new int[width][height][widthSkull + 1][heightSkull + 1];
+	    configurations = new Integer[width][height][widthSkull+1][heightSkull+1];
 	    for(int i = 0; i < width; i++) {
 		// configurations[i] = new int[][][][](height);
 		for(int j = 0; j < height; j++) {
@@ -224,7 +224,7 @@ public class Main {
 	
 	if(configurations == null || configurations.length < newM || configurations[0].length < newN || configurations[0][0].length < newI || configurations[0][0][0].length < newJ) {
 	    //System.out.println("init : " + newM + " " + newN + " " + newI + " " + newJ );
-	    configurations = new int[newM][newN][newI + 1][newJ + 1];
+	    configurations = new Integer[newM][newN][newI+1][newJ+1];
 	    for(int i = 0; i < newM; i++) {
 		// configurations[i] = new int[][][][](height);
 		for(int j = 0; j < newN; j++) {
@@ -233,7 +233,7 @@ public class Main {
 			//  configurations[i][j][k] = new int[][][][](heightSkull);
 			for(int l = 0; l <= newJ; l++) {
 			    //System.out.println("init : " + i + " " + j + " " + k + " " + l + " " );
-			    configurations[i][j][k][l] = -1;
+			    configurations[i][j][k][l] = null;
 			}		    
 		    }
 		}
@@ -266,7 +266,7 @@ public class Main {
 	configurations[newM-1][newN-1][newI][newJ] = result;
     }
     
-    public static int getConfiguration(int m, int n, int i, int j) {
+    public static Integer getConfiguration(int m, int n, int i, int j) {
 	int newM = Integer.max(m,n);
 	int newN = Integer.min(m,n);
 	
