@@ -222,14 +222,14 @@ public class Main {
      */
     public static void initConfigurationTable2(int width, int height, int widthSkull, int heightSkull) {
 	/*
-	int newM = Integer.max(width,height);
-	int newN = Integer.min(width,height);
+	int newM = Math.max(width,height);
+	int newN = Math.min(width,height);
 	
 	int tmpI = newM / 2;
 	int tmpJ = newN / 2;
 	
-	int newI = Integer.max(tmpI, tmpJ);
-	int newJ = Integer.min(tmpI, tmpJ);
+	int newI = Math.max(tmpI, tmpJ);
+	int newJ = Math.min(tmpI, tmpJ);
 */
 
 	int newM;
@@ -249,8 +249,8 @@ public class Main {
 	    tmpJ = heightSkull;
 	}
 	
-	int newI = Integer.min(tmpI, newM / 2);
-	int newJ = Integer.min(tmpJ, newN / 2);
+	int newI = Math.min(tmpI, newM / 2);
+	int newJ = Math.min(tmpJ, newN / 2);
 	
 	if(configurations == null || configurations.length < newM || configurations[0].length < newN || configurations[0][0].length < newI || configurations[0][0][0].length < newJ) {
 	    //System.out.println("init : " + newM + " " + newN + " " + newI + " " + newJ );
@@ -270,8 +270,8 @@ public class Main {
     
     public static void addConfiguration(int m, int n, int i, int j, int result) {
 	
-	/*int newM = Integer.max(m,n);
-	int newN = Integer.min(m,n);
+	/*int newM = Math.max(m,n);
+	int newN = Math.min(m,n);
 	*/
 	int newM;
 	int newN;
@@ -291,22 +291,22 @@ public class Main {
 	}
 	
 	
-	int newI = Integer.min(tmpI, newM - tmpI - 1);
-	int newJ = Integer.min(tmpJ, newN - tmpJ - 1);
+	int newI = Math.min(tmpI, newM - tmpI - 1);
+	int newJ = Math.min(tmpJ, newN - tmpJ - 1);
 	
 	configurations[newM-1][newN-1][newI][newJ] = result;
     }
     
     public static Integer getConfiguration(int m, int n, int i, int j) {
 	/*
-	  int newM = Integer.max(m,n);
-	int newN = Integer.min(m,n);
+	  int newM = Math.max(m,n);
+	int newN = Math.min(m,n);
 	
-	int tmpI = Integer.min(i, m - i - 1);
-	int tmpJ = Integer.min(j, n - j - 1);
+	int tmpI = Math.min(i, m - i - 1);
+	int tmpJ = Math.min(j, n - j - 1);
 	
-	int newI = Integer.max(tmpI, tmpJ);
-	int newJ = Integer.min(tmpI, tmpJ);
+	int newI = Math.max(tmpI, tmpJ);
+	int newJ = Math.min(tmpI, tmpJ);
 	*/
 	int newM;
 	int newN;
@@ -326,8 +326,8 @@ public class Main {
 	}
 	
 	
-	int newI = Integer.min(tmpI, newM - tmpI - 1);
-	int newJ = Integer.min(tmpJ, newN - tmpJ - 1);
+	int newI = Math.min(tmpI, newM - tmpI - 1);
+	int newJ = Math.min(tmpJ, newN - tmpJ - 1);
 	
 	//System.out.println("get : " + newM + " " + newN + " " + newI + " " + newJ );
 	return configurations[newM -1][newN -1][newI][newJ];
